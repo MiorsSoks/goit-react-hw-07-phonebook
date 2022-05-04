@@ -1,17 +1,34 @@
-// Need to use the React-specific entry point to import createApi
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-// Define a service using a base URL and expected endpoints
+
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://626f94efc508beec4885c167.mockapi.io/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://626f94efc508beec4885c167.mockapi.io/contacts/' }),
+  tageTypes: ['Todo'],
   endpoints: (builder) => ({
     getContacts: builder.query({
-      query: `contacts/`,
+      query: () => `contacts/`,
+      providesTags: ['Todo']
     }),
+    deleteContact: builder.mutation({
+      query: contactId => ({
+        url: `contacts/${contactId}`,
+        method: 'DELETE',
+        body: contactId,
+        
+      }),
+      invalidatesTags: ['Todo']
+    }),
+        createContact: builder.mutation({
+      query: contactId => ({
+        url: `contacts/`,
+        method: 'POST',
+        body: contactId,
+        
+      }),
   }),
 })
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
-export const { useGetContactsQuery } = contactsApi
+
+export const { useGetContactsQuery, useDeleteContactMutation useCreateContactMutation } = contactsApi
