@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { Label } from './Filter.styled';
 
-export default function Filter({ filter, addFilter }) {
+export default function Filter({ filter, setFilter }) {
+  const addFilter = e => {
+    setFilter(e.target.value);
+  };
   return (
     <div>
       <Label htmlFor="filter">Find contacts by name</Label>
@@ -12,5 +15,5 @@ export default function Filter({ filter, addFilter }) {
 
 Filter.propTypes = {
   filter: PropTypes.string,
-  addFilter: PropTypes.func,
+  setFilter: PropTypes.func,
 };
